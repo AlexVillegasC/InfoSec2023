@@ -13,83 +13,31 @@ console.log(arrayEjemplo); // salida: [1, 'hola', true, [4, 5, 6], 7]
 arrayEjemplo.pop();
 console.log(arrayEjemplo); // salida: [1, 'hola', true, [4, 5, 6]]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Objects
-// // Crear un objeto que representa un usuario
-// const usuario = {
-//     nombre: 'Juan',
-//     apellido: 'Pérez',
-//     edad: 30,
-//     direccion: {
-//       calle: 'Av. 123',
-//       ciudad: 'Buenos Aires',
-//       pais: 'Argentina'
-//     }
-//   };
+// Crear un objeto que representa un usuario
+const usuario = {
+    nombre: 'Juan',
+    apellido: 'Pérez',
+    edad: 30,
+    direccion: {
+      calle: 'Av. 123',
+      ciudad: 'Buenos Aires',
+      pais: 'Argentina'
+    }
+  };
   
-//   // Acceder a una propiedad del objeto
-//   console.log(usuario.nombre); // salida: 'Juan'
-  
-//   // Añadir una nueva propiedad al objeto
-//   usuario.telefono = '1234567890';
-//   console.log(usuario); // salida: { nombre: 'Juan', apellido: 'Pérez', edad: 30, direccion: { calle: 'Av. 123', ciudad: 'Buenos Aires', pais: 'Argentina' }, telefono: '1234567890' }
-  
-// // Crear un set con valores únicos
-// const setEjemplo = new Set([1, 2, 3, 3, 4, 5, 5, 6]);
+  // Acceder a una propiedad del objeto
+  console.log(usuario.nombre); // salida: 'Juan'
 
-// // Acceder a los valores del set
-// console.log(setEjemplo); // salida: Set(6) { 1, 2, 3, 4, 5, 6 }
+// Recorrido de Array
+// const libros = [
+//     {id: 105, titulo: "El principito"},
+//     {id: 210, titulo: "Cien años de soledad"},
+//     {id: 304, titulo: "Don Quijote de la Mancha"},
+//     {id: 457, titulo: "1984"},
+//     {id: 501, titulo: "Un mundo feliz"}    
+// ];
 
-// // Añadir un nuevo valor al set
-// setEjemplo.add(7);
-// console.log(setEjemplo); // salida: Set(7) { 1, 2, 3, 4, 5, 6, 7 }
-
-// Hash Tables
-// // Crear un map con claves y valores de diferentes tipos
-// const mapEjemplo = new Map([
-//     ['nombre', 'Juan'],
-//     ['edad', 30],
-//     [{id: 1}, 'valor']
-//   ]);
-  
-//   // Acceder a los valores del map
-//   console.log(mapEjemplo.get('nombre')); // salida: 'Juan'
-//   console.log(mapEjemplo.get({id: 1})); // salida: 'valor'
-  
-//   // Añadir una nueva clave-valor al map
-//   mapEjemplo.set('telefono', '1234567890');
-//   console.log(mapEjemplo); // salida: Map(4) { 'nombre' => 'Juan', 'edad' => 30, { id: 1 } => 'valor', 'telefono' => '1234567890' }
-
-
-// // Queue
-// // Creamos una cola vacía
-// const colaMensajes = [];
-
-// // Agregamos algunos mensajes a la cola
-// colaMensajes.push('mensaje1');
-// colaMensajes.push('mensaje2');
-// colaMensajes.push('mensaje3');
-
-// // Procesamos los mensajes en el orden en que llegaron
-// while (colaMensajes.length > 0) {
-//   const mensaje = colaMensajes.shift();
-//   console.log('Procesando mensaje:', mensaje);
-//   // aquí iría el código para procesar el mensaje
-// }
-
-// console.log('No hay más mensajes en la cola');
+// libros.forEach(libro => {
+//     console.log(`ID: ${libro.id}, Título: ${libro.titulo}`);
+// });
