@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "adm-zip": "^0.5.10",
+    "archiver": "^6.0.0",
+    "extract-zip": "^2.0.1",
+    "zip-a-folder": "^2.0.0"
+  }
+}
