@@ -1,8 +1,12 @@
 // Ejercicio:
 // Vaya a npm y busque una libreria que sirva para comprimir archivos .zip
+/* 
+    Installation
+    Get the library:
+        npm install jszip
+*/
 
-// Comprima todos los archivos .txt que estan en la carpeta mis-archivos, 
-// genera un "UNA.zip" dentro del folder mis-archivos
+// Comprima todos los archivos .txt que estan en la carpeta mis-archivos, genera un "UNA.zip" dentro del folder mis-archivos
 const filePath = 'd:/dev/GitHub/InfoSec2023/InfoSec2023/Labs/Lab1/AndresMejias - 504460444';
 
 const fs = require('fs').promises;
