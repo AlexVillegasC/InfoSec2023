@@ -1,4 +1,4 @@
-//imprima en consola..
+//imprima en consola...ss
 //EMIT emite, ON Escucha
 var events = require('events');
 var eventlEmitter = new events.EventEmitter();
