@@ -1,10 +1,10 @@
-//imprima en consola...ss
+//imprima en consola..
 //EMIT emite, ON Escucha
 var events = require('events');
 var eventlEmitter = new events.EventEmitter();
 //Evento de conexion
 var connectHandler = function connected(){
-    console.log('Conexion Iniciada');-
+    console.log('Conexion Iniciada');
     eventlEmitter.emit('connection_executed');
 }
 //se registra el evento conecciont y se asigna el handler
