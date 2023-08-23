@@ -1,6 +1,7 @@
 // Ejercicio:
 // Vaya a npm y busque una libreria que sirva para comprimir archivos .zip
 // Comprima todos los archivos .txt que estan en la carpeta mis-archivos, genera un "UNA.zip" dentro del folder mis-archivos
+//Utiizando Archvier npm i archiver, //! https://www.npmjs.com/package/archiver
 const fs = require('fs');
 const archiver = require('archiver');
 var output = fs.createWriteStream('mis-archivos/'+'UNA'+'.zip');//define ruta y nombre para el o los archvios a comprimir

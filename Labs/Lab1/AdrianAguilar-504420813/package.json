@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "archiver": "^6.0.0"
+    "archiver": "^6.0.0",
+    "decompress": "^4.2.1"
   }
 }
