@@ -1,7 +1,7 @@
 //imprima en consola
 //emit emite, on escucha
 
-
+/*
 var events = require('events');
 var eventEmitter = new events.EventEmitter();
 
@@ -19,4 +19,24 @@ eventEmitter.on('connection_executed', function(){
     console.log('se ha conectado exitosamente');
 });
 
-eventEmitter.emit('conection');
+eventEmitter.emit('connection'); // 'connection', no 'conection'
+*/
+
+
+var events = require('events');
+var eventEmitter = new events.EventEmitter();
+
+// Evento de conexión
+var connectHandler = function connected() {
+    console.log('Conexión Iniciada');
+    eventEmitter.emit('connection_executed'); // Corrección en esta línea
+}
+
+// Se registra el evento 'connection' y se asigna el handler
+eventEmitter.on('connection', connectHandler);
+
+eventEmitter.on('connection_executed', function() {
+    console.log('Se ha conectado exitosamente');
+});
+
+eventEmitter.emit('connection');
