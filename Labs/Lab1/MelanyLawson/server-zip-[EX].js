@@ -3,7 +3,7 @@
 // Comprima todos los archivos .txt que estan en la carpeta mis-archivos, genera un "UNA.zip" dentro del folder mis-archivos
 
 
-const filePath = 'C:/Users/Melany/Desktop/InfoSec2023/InfoSec2023/Labs/Lab1/MelanyLawson - 504390321';
+const filePath = 'C:/Users/Melany Lawson/Desktop/InfoSec2023/Labs/Lab1/MelanyLawson';
 
 const fs = require('fs').promises;
 const path = require('path');
@@ -25,7 +25,7 @@ async function addFolderToZip(zip, folderPath, parentFolder = '') {
         const relativePath = path.join(parentFolder, item);
 
         const stats = await fs.stat(itemPath);
-        if (stats.isFile()) {
+        if (stats.isFile() && path.extname(itemPath) === '.txt') { // Solo agrega archivos .txt
             const fileContent = await fs.readFile(itemPath);
             zip.file(relativePath, fileContent);
         } else if (stats.isDirectory()) {
@@ -34,7 +34,7 @@ async function addFolderToZip(zip, folderPath, parentFolder = '') {
     }
 }
 
-const sourceFolder = `${filePath}/mis-archivos`;
-const outputZipPath = `${filePath}/mis-archivos/UNA.zip`;
+const sourceFolder = path.join(filePath, 'mis-archivos'); // Usa path.join para formar rutas correctamente
+const outputZipPath = path.join(sourceFolder, 'UNA.zip'); // Usa path.join para formar rutas correctamente
 
 createZipFromFolder(sourceFolder, outputZipPath);
