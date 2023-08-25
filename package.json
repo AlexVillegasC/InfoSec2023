@@ -1,5 +1,16 @@
 {
   "dependencies": {
-    "extract-zip": "^2.0.1"
-  }
+    "express": "^4.18.2",
+    "extract-zip": "^2.0.1",
+    "zip-stream": "^4.1.0"
+  },
+  "name": "infosec2023",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
