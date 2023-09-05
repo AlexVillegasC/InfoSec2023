@@ -13,6 +13,7 @@
 
     body {
       font: 13px Helvetica, Arial;
+      overflow: scroll;
     }
 
     form {
@@ -66,17 +67,34 @@
     #nombre {
       width: 20%
     }
+
+    li {
+      display: flex;
+
+      max-height: 500px;
+      max-width: 500px;
+      gap: 40px;
+
+    }
+
+    .img-class {
+      max-width: 100%;
+      max-height: 100%;
+
+    }
   </style>
 </head>
 
 <body>
   <ul id="messages"></ul>
-  <form action="">
+  <form id="formulario" action="">
     <input id="nombre" autocomplete="off" placeholder="Username" />
     <input id="m" autocomplete="off" placeholder="Escriba un mensaje" /><button>Send</button>
   </form>
   <script src="https://cdn.socket.io/4.7.2/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+
   <script>
 
     var colorHexTxt = "";
@@ -114,6 +132,8 @@
         if (nombreTxt.trim() != undefined && nombreTxt.trim() != "") {
           socket.emit('Evento-Mensaje-Server', JSON.stringify(jsonMsg));
           $('#m').val('');
+          $('#nombre').val('');
+
         }
 
         return false;
@@ -125,8 +145,31 @@
         // recibimos mensaje como un objeto JSON
         var msgJson = JSON.parse(msg);
 
-        // lo ponemos en un formato
-        var mensajeDisplay = "<b style='color:" + msgJson.color + "'>" + msgJson.nombre + "</b>: " + msgJson.mensaje;
+        // Expresión regular para validar URL de imágenes (PNG, GIF, JPEG)
+        const imageRegex = /\.(png|gif|jpeg|jpg)$/i;
+
+        // Expresión regular para validar URL de YouTube
+        const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/i;
+
+        let mensajeDisplay = null;
+
+
+
+        if (imageRegex.test(msgJson.mensaje)) {
+
+          // lo ponemos en un formato
+          mensajeDisplay = `<b style="color:${msgJson.color}">${msgJson.nombre}</b> <img src="${msgJson.mensaje}" alt="" class="img-class"/>`;
+
+        } else if (youtubeRegex.test(msgJson.mensaje)) {
+
+          mensajeDisplay = `<b style="color:${msgJson.color}">${msgJson.nombre}</b> <iframe width="300" height="300" src="${msgJson.mensaje}"</iframe>`
+
+
+        } else {
+
+          mensajeDisplay = `<b style="color:${msgJson.color}">${msgJson.nombre}</b>`;
+
+        }
 
         // imprimimos el mensaje en pantalla
         $('#messages').append($('<li>').html(mensajeDisplay));
