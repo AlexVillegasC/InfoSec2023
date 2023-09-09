@@ -2,7 +2,7 @@
 // npm install para descargar los paquetes...
 
 // libreriuas
-var validation = require('unalib')();
+var validation = require('unalib');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
