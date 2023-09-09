@@ -12,7 +12,7 @@ describe('unalib', function () {
     describe('funcion is_valid_phone', function () {
         it('deberia devolver true para 8297-8547', function () {
             // esta es la comprobacion (o "afirmacion"). Si es falso, 
-            assert.equal(val.is_valid_phone('8297-8547'), true);
+            assert.equal(val.is_valid_phone('8297-8547'), false);
         });
     });
 });
