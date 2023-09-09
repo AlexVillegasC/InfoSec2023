@@ -1,7 +1,8 @@
 {
   "dependencies": {
-    "express": "*",
-    "socket.io": "*"
+    "express": "^4.18.2",
+    "mocha": "^10.2.0",
+    "socket.io": "^4.7.2"
   },
   "scripts": {
     "start": "node server.js",
