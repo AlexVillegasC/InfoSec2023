@@ -1,22 +1,27 @@
-
-// npm install para descargar los paquetes...
-
-// libreriuas
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 
-// root: presentar html
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-// escuchar una conexion por socket
 io.on('connection', function(socket){
-  // si se escucha "chat message"
   socket.on('Evento-Mensaje-Server', function(msg){
-    // volvemos a emitir el mismo mensaje
+    var msgJson = JSON.parse(msg);
+
+    // Si se incluye una URL de imagen, la enviamos como un evento separado
+    if (msgJson.imageURL) {
+      io.emit('Evento-Imagen-Server', msgJson.imageURL);
+    }
+
+    // Si se incluye una URL de video, la enviamos como un evento separado
+    if (msgJson.videoURL) {
+      io.emit('Evento-Video-Server', msgJson.videoURL);
+    }
+
+    // Emitimos el mensaje de texto
     io.emit('Evento-Mensaje-Server', msg);
   });
 });
