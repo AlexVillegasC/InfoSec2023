@@ -1,0 +1,12 @@
+{
+  "name": "streams---zip-mis-archivos-y-unzip-npm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server-unzip-[EX].js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
