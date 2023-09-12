@@ -1,11 +1,12 @@
-
 // npm install para descargar los paquetes...
 
 // libreriuas
-var app = require('express')();
+const express = require("express");
+const app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
+
 
 // root: presentar html
 app.get('/', function(req, res){
@@ -25,3 +26,4 @@ io.on('connection', function(socket){
 http.listen(port, function(){
   console.log('listening on *:' + port);
 });
+
