@@ -1,8 +1,6 @@
 
 // npm install para descargar los paquetes...
-
 const { validateHeaderValue } = require('http');
-
 // libreriuas
 var validation = require('unalib');
 var app = require('express')();
@@ -11,21 +9,21 @@ var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 
 // root: presentar html
-app.get('/', function (req, res) {
+app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
 // escuchar una conexion por socket
-io.on('connection', function (socket) {
+io.on('connection', function(socket){
   // si se escucha "chat message"
-  socket.on('Evento-Mensaje-Server', function (msg) {
-    // volvemos a emitir el mismo mensaje
+  socket.on('Evento-Mensaje-Server', function(msg){
     msg = validation.validateMessage(msg);
 
+    // volvemos a emitir el mismo mensaje
     io.emit('Evento-Mensaje-Server', msg);
   });
 });
 
-http.listen(port, function () {
+http.listen(port, function(){
   console.log('listening on *:' + port);
 });
