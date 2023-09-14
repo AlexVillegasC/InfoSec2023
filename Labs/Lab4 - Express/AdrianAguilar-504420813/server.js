@@ -1,7 +1,8 @@
 
 // npm install para descargar los paquetes...
-
+const { validateHeaderValue } = require('http');
 // libreriuas
+var validation = require('unalib');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -16,6 +17,8 @@ app.get('/', function(req, res){
 io.on('connection', function(socket){
   // si se escucha "chat message"
   socket.on('Evento-Mensaje-Server', function(msg){
+    msg = validation.validateMessage(msg);
+
     // volvemos a emitir el mismo mensaje
     io.emit('Evento-Mensaje-Server', msg);
   });

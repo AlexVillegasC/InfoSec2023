@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Chat Socket.IO UNA</title>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,8 +21,8 @@
     <ul id="messages"></ul>
     <form action="">
       <input id="nombre" autocomplete="off" placeholder="Username"/>
-      <input id="m" autocomplete="off" placeholder="Escriba un mensaje" /><button type="button">Send</button>
-      <input placeholder="Escriba aqui" type="file" id="fileInput" accept="image/*">
+      <input id="m" autocomplete="off" placeholder="Escriba un mensaje" /><button>Send</button>
+      <input type="file" id="fileInput" accept="image/*">
     </form>
     <script src="https://cdn.socket.io/4.7.2/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -48,10 +45,10 @@
         var socket = io();
 
         // emite evento al servidor
-
+        
         $('form').submit(function(){
             var fileInput = document.getElementById('fileInput');
-
+            
             var nombreTxt = $('#nombre').val() || "Anomimo";
             var mensajeTxt = $('#m').val();
 
