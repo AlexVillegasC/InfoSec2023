@@ -111,21 +111,21 @@ describe('UNAnpm', function () {
   });
 
   describe('validateMessage', function () {
-    it('should validate and convert an image URL to an image tag', function () {
+    it('Debe validar y convertir la URL de una imagen en una etiqueta de imagen', function () {
       const input = '{"mensaje": "https://example.com/image.jpg"}';
       const expectedOutput = '{"mensaje":"<img src=\\"https://example.com/image.jpg\\" style=\\"max-height: 400px;max-width: 400px;\\">"}';
       const result = val.validateMessage(input);
       assert.equal(result, expectedOutput);
     });
 
-    it('should validate and convert a YouTube video URL to an embedded video code', function () {
+    it('Debe validar y convertir la URL de un vídeo de YouTube en un código de vídeo incrustado', function () {
       const input = '{"mensaje": "https://www.youtube.com/watch?v=nOm__NU9Uvg"}';
       const expectedOutput = '{"mensaje":"<iframe width=\\"560\\" height=\\"315\\" src=\\"https://www.youtube.com/embed/nOm__NU9Uvg\\" frameborder=\\"0\\" allow=\\"accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\\" allowfullscreen></iframe>"}';
       const result = val.validateMessage(input);
       assert.equal(result, expectedOutput);
     });
 
-    it('should recognize and leave plain text as is', function () {
+    it('Debe reconocer y dejar el texto sin formato como está', function () {
       const input = '{"mensaje": "Este es un texto."}';
       const expectedOutput = '{"mensaje":"Este es un texto."}';
       const result = val.validateMessage(input);
