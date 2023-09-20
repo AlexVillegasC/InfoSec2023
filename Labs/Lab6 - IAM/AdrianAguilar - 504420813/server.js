@@ -11,9 +11,9 @@ var path = require('path');
 let app = express();
 
 // Globals
-const OKTA_ISSUER_URI = "https://una-infosec.us.auth0.com/"
-const OKTA_CLIENT_ID = "mlIokKRjb5CGf8FbKpDIOKE36e7BjDLA";
-const OKTA_CLIENT_SECRET = "h8KznysLFpC2QHJHwTb_GDE1cnIesddtvURO-Yns_DQEYIJVG33QdeGOa8Bq7aWr";
+const OKTA_ISSUER_URI = "https://dev-dianinfoseg.us.auth0.com"
+const OKTA_CLIENT_ID = "fcGp0f4LCbbLwI7ffrQ3Nrl0vXdHvbEe";
+const OKTA_CLIENT_SECRET = "xtCr8rzGgJFvIedh_-BnRO_B2jOO59zjS9iehrd0E6TEATVq_nbsT7xNChBEMJjN";
 const REDIRECT_URI = "http://localhost:3000/dashboard";
 const PORT = process.env.PORT || "3000";
 const SECRET = "hjsadfghjakshdfg87sd8f76s8d7f68s7f632342ug44gg423636346f"; // Dejar el secret así como está.
@@ -24,8 +24,8 @@ const config = {
   auth0Logout: true,
   secret: SECRET,
   baseURL: 'http://localhost:3000',
-  clientID: 'mlIokKRjb5CGf8FbKpDIOKE36e7BjDLA',
-  issuerBaseURL: 'https://una-infosec.us.auth0.com'
+  clientID: 'fcGp0f4LCbbLwI7ffrQ3Nrl0vXdHvbEe',
+  issuerBaseURL: 'https://dev-dianinfoseg.us.auth0.com'
 };
 
 let oidc = new ExpressOIDC({
@@ -57,9 +57,23 @@ app.use(session({
 // App routes
 app.use(oidc.router);
 
-app.get("/",  (req, res) => {
-  res.render("index");  
+
+app.get("/", requiresAuth(),(req,res)=>{
+  if(req.oidc.isAuthenticated()){
+    res.sendFile(__dirname + '/views/Chat.html');
+  }
 });
+/*app.get('/', function(req, res){
+  res.render(__dirname + '/views/Chat.html');
+});*/
+/*app.get("/callback", (req, res) => {
+  // Realiza la redirección a tu página HTML deseada después de la autenticación exitosa.
+  res.render(__dirname + '/views/Chat.html');
+});*/
+
+/*app.get("/",  (req, res) => {
+  res.render("index");  
+});*/
 
 app.get("/dashboard", requiresAuth() ,(req, res) => {  
   // if(req.oidc.isAuthenticated())
