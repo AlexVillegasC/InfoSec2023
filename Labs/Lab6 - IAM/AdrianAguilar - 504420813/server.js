@@ -66,11 +66,6 @@ app.get("/", requiresAuth(),(req,res)=>{
 /*app.get('/', function(req, res){
   res.render(__dirname + '/views/Chat.html');
 });*/
-/*app.get("/callback", (req, res) => {
-  // Realiza la redirección a tu página HTML deseada después de la autenticación exitosa.
-  res.render(__dirname + '/views/Chat.html');
-});*/
-
 /*app.get("/",  (req, res) => {
   res.render("index");  
 });*/
