@@ -11,10 +11,12 @@
     "express-openid-connect": "^2.16.0",
     "express-session": "^1.15.6",
     "socket.io": "^4.7.2",
-    "swig": "^1.4.2"
+    "swig": "^1.4.2",
+    "mocha": "*"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "mocha"
   },
   "author": "UNA",
   "license": "MIT"
