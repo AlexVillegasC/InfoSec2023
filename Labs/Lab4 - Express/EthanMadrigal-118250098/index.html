@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>Chat Socket.IO UNA</title>
@@ -21,7 +21,7 @@
     <ul id="messages"></ul>
     <form action="">
       <input id="nombre" autocomplete="off" placeholder="Username"/>
-      <input id="m" autocomplete="off" placeholder="Escriba un mensaje" /><button>Send</button>
+      <input id="m" autocomplete="off" placeholder="Escriba un mensaje o URL de imagen/video" /><button>Send</button>
     </form>
     <script src="https://cdn.socket.io/4.7.2/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -29,7 +29,6 @@
 
     var colorHexTxt = "";
 
-    // genera colores aleatorios en hexadeximal
     function getRandomColor() {
         var letters = '0123456789ABCDEF';
         var color = '#';
@@ -43,11 +42,8 @@
       $(function () {
         var socket = io();
 
-        // emite evento al servidor
         $('form').submit(function(){
-
-          // captura de nombre y mensaje
-          var nombreTxt = $('#nombre').val() || "Anomimo";
+          var nombreTxt = $('#nombre').val() || "Anonimo";
           var mensajeTxt = $('#m').val();
 
           if (colorHexTxt == "")
@@ -55,11 +51,21 @@
             colorHexTxt = getRandomColor();
           }
 
-          // composicion del mensaje en formato JSON para enviar
-          // al server NODE
-          var jsonMsg = { nombre:nombreTxt, mensaje: mensajeTxt, color: colorHexTxt};
+          if (esURLYoutube(mensajeTxt)) {
+            var videoId = obtenerIdDeVideoYoutube(mensajeTxt);
+            if (videoId) {
 
-          // pequena validacion de no enviar nada al server vacio
+              var videoHTML = "<iframe width='560' height='315' src='https://www.youtube.com/embed/" + videoId + "' frameborder='0' allowfullscreen></iframe>";
+              mensajeTxt = videoHTML;
+            }
+          } else if (esURLImagen(mensajeTxt)) {
+
+            var imgHTML = "<img src='" + mensajeTxt + "' width='200' />";
+            mensajeTxt = imgHTML;
+          }
+
+          var jsonMsg = { nombre: nombreTxt, mensaje: mensajeTxt, color: colorHexTxt};
+
           if (nombreTxt.trim() != undefined && nombreTxt.trim() != ""){
             socket.emit('Evento-Mensaje-Server', JSON.stringify(jsonMsg));
             $('#m').val('');
@@ -68,16 +74,25 @@
           return false;
         });
 
-        // Escucha el server
+        function esURLYoutube(str) {
+          return /https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=)?[a-zA-Z0-9_-]+/.test(str);
+        }
+
+        function obtenerIdDeVideoYoutube(url) {
+          var match = url.match(/https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=)?([a-zA-Z0-9_-]+)/);
+          if (match && match[4]) {
+            return match[4];
+          }
+          return null;
+        }
+
+        function esURLImagen(str) {
+          return /\.(jpeg|jpg|gif|png)$/.test(str) || /yt3\.googleusercontent\.com/.test(str) || /^data:image\/(png|jpg|jpeg|gif);base64,/.test(str);
+        }
+
         socket.on('Evento-Mensaje-Server', function(msg){
-
-          // recibimos mensaje como un objeto JSON
           var msgJson =  JSON.parse(msg);
-
-          // lo ponemos en un formato
           var mensajeDisplay = "<b style='color:"+ msgJson.color +"'>" + msgJson.nombre + "</b>: " + msgJson.mensaje;
-
-          // imprimimos el mensaje en pantalla
           $('#messages').append($('<li>').html(mensajeDisplay));
           window.scrollTo(0, document.body.scrollHeight);
         });

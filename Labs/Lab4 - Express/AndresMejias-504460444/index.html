@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>Chat Socket.IO UNA</title>
@@ -27,10 +27,7 @@
     <ul id="messages"></ul>
     <form action="">
       <input id="nombre" autocomplete="off" placeholder="Username"/>
-      <input id="m" autocomplete="off" placeholder="Escriba un mensaje" />
-      <input id="imageURL" autocomplete="off" placeholder="URL de Imagen" />
-      <input id="videoURL" autocomplete="off" placeholder="URL de Video" />
-      <button>Send</button>
+      <input id="m" autocomplete="off" placeholder="Escriba un mensaje" /><button>Send</button>
     </form>
     <div class="chat-media" id="media-container"></div>
     <script src="https://cdn.socket.io/4.7.2/socket.io.js"></script>
@@ -38,7 +35,8 @@
     <script>
       var colorHexTxt = "";
 
-      function getRandomColor() {
+    // genera colores aleatorios en hexadeximal
+    function getRandomColor() {
         var letters = '0123456789ABCDEF';
         var color = '#';
         for (var i = 0; i < 6; i++) {
@@ -50,8 +48,11 @@
       $(function () {
         var socket = io();
 
+        // emite evento al servidor
         $('form').submit(function(){
-          var nombreTxt = $('#nombre').val() || "Anónimo";
+
+          // captura de nombre y mensaje
+          var nombreTxt = $('#nombre').val() || "Anomimo";
           var mensajeTxt = $('#m').val();
           var imageURL = $('#imageURL').val();
           var videoURL = $('#videoURL').val();
@@ -59,16 +60,13 @@
           if (colorHexTxt == "") {
             colorHexTxt = getRandomColor();
           }
-     
-          var jsonMsg = {
-            nombre: nombreTxt,
-            mensaje: mensajeTxt,
-            color: colorHexTxt,
-            imageURL: imageURL,
-            videoURL: videoURL
-          };
-     
-          if (nombreTxt.trim() !== undefined && nombreTxt.trim() !== "") {
+
+          // composicion del mensaje en formato JSON para enviar
+          // al server NODE
+          var jsonMsg = { nombre:nombreTxt, mensaje: mensajeTxt, color: colorHexTxt};
+
+          // pequena validacion de no enviar nada al server vacio
+          if (nombreTxt.trim() != undefined && nombreTxt.trim() != ""){
             socket.emit('Evento-Mensaje-Server', JSON.stringify(jsonMsg));
             $('#m').val('');
             $('#imageURL').val('');
@@ -77,18 +75,16 @@
           return false;
         });
 
+        // Escucha el server
         socket.on('Evento-Mensaje-Server', function(msg){
-          var msgJson = JSON.parse(msg);
+
+          // recibimos mensaje como un objeto JSON
+          var msgJson =  JSON.parse(msg);
+
+          // lo ponemos en un formato
           var mensajeDisplay = "<b style='color:"+ msgJson.color +"'>" + msgJson.nombre + "</b>: " + msgJson.mensaje;
 
-          if (msgJson.imageURL) {
-            mensajeDisplay += "<br><img src='" + msgJson.imageURL + "' alt='Imagen' style='max-width: 100%;'>";
-          }
-
-          if (msgJson.videoURL) {
-            mensajeDisplay += "<div class='chat-media'><iframe width='300' height='200' src='" + msgJson.videoURL + "' frameborder='0' allowfullscreen></iframe></div>";
-          }
-
+          // imprimimos el mensaje en pantalla
           $('#messages').append($('<li>').html(mensajeDisplay));
           $('#media-container').append(mensajeDisplay);
           window.scrollTo(0, document.body.scrollHeight);
