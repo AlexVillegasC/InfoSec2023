@@ -29,7 +29,7 @@
 
     var colorHexTxt = "";
 
-    // Función para generar colores hexadecimales aleatorios
+    
     function getRandomColor() {
         var letters = '0123456789ABCDEF';
         var color = '#';
@@ -43,7 +43,6 @@
       $(function () {
         var socket = io();
 
-        // Emitir evento al servidor
         $('form').submit(function(){
           var nombreTxt = $('#nombre').val() || "Anonimo";
           var mensajeTxt = $('#m').val();
@@ -53,24 +52,24 @@
             colorHexTxt = getRandomColor();
           }
 
-          // Comprueba si el mensaje es una URL de YouTube
+        
           if (esURLYoutube(mensajeTxt)) {
             var videoId = obtenerIdDeVideoYoutube(mensajeTxt);
             if (videoId) {
-              // Muestra el video de YouTube incrustado
+              
               var videoHTML = "<iframe width='560' height='315' src='https://www.youtube.com/embed/" + videoId + "' frameborder='0' allowfullscreen></iframe>";
               mensajeTxt = videoHTML;
             }
           } else if (esURLImagen(mensajeTxt)) {
-            // Si es una URL de imagen, muestra la imagen
+          
             var imgHTML = "<img src='" + mensajeTxt + "' width='200' />";
             mensajeTxt = imgHTML;
           }
 
-          // Composición del mensaje en formato JSON para enviar al servidor NODE
+          
           var jsonMsg = { nombre: nombreTxt, mensaje: mensajeTxt, color: colorHexTxt};
 
-          // Pequeña validación para no enviar datos vacíos al servidor
+        
           if (nombreTxt.trim() != undefined && nombreTxt.trim() != ""){
             socket.emit('Evento-Mensaje-Server', JSON.stringify(jsonMsg));
             $('#m').val('');
@@ -79,12 +78,12 @@
           return false;
         });
 
-        // Función para comprobar si una cadena es una URL de YouTube
+       
         function esURLYoutube(str) {
           return /https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=)?[a-zA-Z0-9_-]+/.test(str);
         }
 
-        // Función para obtener el ID del video de YouTube desde la URL
+       
         function obtenerIdDeVideoYoutube(url) {
           var match = url.match(/https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=)?([a-zA-Z0-9_-]+)/);
           if (match && match[4]) {
@@ -93,7 +92,7 @@
           return null;
         }
 
-        // Función para comprobar si una cadena es una URL de imagen
+      
         function esURLImagen(str) {
           return /\.(jpeg|jpg|gif|png)$/.test(str) || /yt3\.googleusercontent\.com/.test(str) || /^data:image\/(png|jpg|jpeg|gif);base64,/.test(str);
         }
