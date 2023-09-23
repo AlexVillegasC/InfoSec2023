@@ -1,11 +1,12 @@
 
 // npm install para descargar los paquetes...
+const { validateHeaderValue } = require('http');
 // libreriuas
 var validation = require('unalib');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3003;
 
 // root: presentar html
 app.get('/', function(req, res){
