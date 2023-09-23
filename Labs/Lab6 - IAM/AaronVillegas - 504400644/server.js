@@ -11,9 +11,9 @@ var path = require('path');
 let app = express();
 
 // Globals
-const OKTA_ISSUER_URI = "https://una-infosec.us.auth0.com/"
-const OKTA_CLIENT_ID = "mlIokKRjb5CGf8FbKpDIOKE36e7BjDLA";
-const OKTA_CLIENT_SECRET = "h8KznysLFpC2QHJHwTb_GDE1cnIesddtvURO-Yns_DQEYIJVG33QdeGOa8Bq7aWr";
+const OKTA_ISSUER_URI = "https://dev-jim6n1f8uyzxdle1.us.auth0.com"
+const OKTA_CLIENT_ID = "JuJV9HafZjgp8O6cVp9JGSyHAPMwU31W";
+const OKTA_CLIENT_SECRET = "k_FP_pb2c5CFAYS4_hFJIeXYnwYqQKUy8OKrg1Y4EiwrG34EUpKHsI4z-NffV3qy";
 const REDIRECT_URI = "http://localhost:3000/dashboard";
 const PORT = process.env.PORT || "3000";
 const SECRET = "hjsadfghjakshdfg87sd8f76s8d7f68s7f632342ug44gg423636346f"; // Dejar el secret así como está.
@@ -24,8 +24,8 @@ const config = {
   auth0Logout: true,
   secret: SECRET,
   baseURL: 'http://localhost:3000',
-  clientID: 'mlIokKRjb5CGf8FbKpDIOKE36e7BjDLA',
-  issuerBaseURL: 'https://una-infosec.us.auth0.com'
+  clientID: 'JuJV9HafZjgp8O6cVp9JGSyHAPMwU31W',
+  issuerBaseURL: 'https://dev-jim6n1f8uyzxdle1.us.auth0.com'
 };
 
 let oidc = new ExpressOIDC({
