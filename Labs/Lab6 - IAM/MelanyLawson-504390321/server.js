@@ -11,33 +11,23 @@ var path = require('path');
 let app = express();
 
 // Globals
-const OKTA_ISSUER_URI = "https://dev-lh15u2n1vmo2mejy.us.auth0.com/"
+const OKTA_ISSUER_URI = "https://dev-lh15u2n1vmo2mejy.us.auth0.com";
 const OKTA_CLIENT_ID = "j7H55Rmi6uXL6zruYJElmt25jSZ4aPX9";
 const OKTA_CLIENT_SECRET = "6IgKXGTXYN6lxtAqU4nAk9iaLuaNLH1W4Xc29URIv4dEd0Qv7w5YmnoZsR5A8kuK";
-const REDIRECT_URI = "http://localhost:3000/dashboard";
+const REDIRECT_URI = "http://localhost:3000/unaChat";
 const PORT = process.env.PORT || "3000";
 const SECRET = "hjsadfghjakshdfg87sd8f76s8d7f68s7f632342ug44gg423636346f"; // Dejar el secret así como está.
 
 //  Esto se los dará Okta.
-
+// es el signing key
 const config = {
   authRequired: false,
   auth0Logout: true,
   secret: SECRET,
   baseURL: 'http://localhost:3000',
-  clientID: 'j7H55Rmi6uXL6zruYJElmt25jSZ4aPX9',
-  issuerBaseURL: 'https://dev-lh15u2n1vmo2mejy.us.auth0.com'
+  clientID: 'y4KBoZFEUWRe3VxKa1Qx9IwJyGOJkict',
+  issuerBaseURL: 'https://dev-gic3zvhz5ffpf7pf.us.auth0.com'
 };
-
-// auth router attaches /login, /logout, and /callback routes to the baseURL
-app.use(auth(config));
-
-// req.isAuthenticated is provided from the auth router
-app.get('/', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-});
-
-
 
 let oidc = new ExpressOIDC({
   issuer: OKTA_ISSUER_URI,
@@ -68,17 +58,23 @@ app.use(session({
 // App routes
 app.use(oidc.router);
 
-app.get("/",  (req, res) => {
-  res.render("index");  
+app.get("/", (req, res) => {
+  res.render("index");
 });
 
-app.get("/dashboard", requiresAuth() ,(req, res) => {  
+app.get("/dashboard", requiresAuth(), (req, res) => {
   // if(req.oidc.isAuthenticated())
   // {
-    var payload = Buffer.from(req.appSession.id_token.split('.')[1], 'base64').toString('utf-8');
-    const userInfo = JSON.parse(payload);
-    res.render("dashboard", { user: userInfo });
+  var payload = Buffer.from(req.appSession.id_token.split('.')[1], 'base64').toString('utf-8');
+  const userInfo = JSON.parse(payload);
+  res.render("dashboard", { user: userInfo });
   //}
+});
+
+app.get("/unaChat", requiresAuth(), (req, res) => {
+  var payload = Buffer.from(req.appSession.id_token.split('.')[1], 'base64').toString('utf-8');
+  const userInfo = JSON.parse(payload);
+  res.render("unaChat", { user: userInfo });
 });
 
 const openIdClient = require('openid-client');
