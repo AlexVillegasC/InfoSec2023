@@ -11,22 +11,34 @@ var path = require('path');
 let app = express();
 
 // Globals
-const OKTA_ISSUER_URI = "https://una-infosec.us.auth0.com/"
-const OKTA_CLIENT_ID = "mlIokKRjb5CGf8FbKpDIOKE36e7BjDLA";
-const OKTA_CLIENT_SECRET = "h8KznysLFpC2QHJHwTb_GDE1cnIesddtvURO-Yns_DQEYIJVG33QdeGOa8Bq7aWr";
+const OKTA_ISSUER_URI = "dev-lh15u2n1vmo2mejy.us.auth0.com"
+const OKTA_CLIENT_ID = "j7H55Rmi6uXL6zruYJElmt25jSZ4aPX9";
+const OKTA_CLIENT_SECRET = "6IgKXGTXYN6lxtAqU4nAk9iaLuaNLH1W4Xc29URIv4dEd0Qv7w5YmnoZsR5A8kuK";
 const REDIRECT_URI = "http://localhost:3000/dashboard";
 const PORT = process.env.PORT || "3000";
 const SECRET = "hjsadfghjakshdfg87sd8f76s8d7f68s7f632342ug44gg423636346f"; // Dejar el secret así como está.
 
 //  Esto se los dará Okta.
+const { auth } = require('express-openid-connect');
+
 const config = {
   authRequired: false,
   auth0Logout: true,
   secret: SECRET,
   baseURL: 'http://localhost:3000',
-  clientID: 'mlIokKRjb5CGf8FbKpDIOKE36e7BjDLA',
-  issuerBaseURL: 'https://una-infosec.us.auth0.com'
+  clientID: 'j7H55Rmi6uXL6zruYJElmt25jSZ4aPX9',
+  issuerBaseURL: 'https://dev-lh15u2n1vmo2mejy.us.auth0.com'
 };
+
+// auth router attaches /login, /logout, and /callback routes to the baseURL
+app.use(auth(config));
+
+// req.isAuthenticated is provided from the auth router
+app.get('/', (req, res) => {
+  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+});
+
+
 
 let oidc = new ExpressOIDC({
   issuer: OKTA_ISSUER_URI,
