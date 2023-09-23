@@ -15,7 +15,7 @@ const OKTA_CLIENT_ID = "mlIokKRjb5CGf8FbKpDIOKE36e7BjDLA";
 const OKTA_CLIENT_SECRET = "YOUR_SECRET_HERE"; // Remember to hide this
 const REDIRECT_URI = "http://localhost:3000/unaChat";
 const PORT = process.env.PORT || "3000";
-const SECRET = "ANOTHER_SECRET_HERE"; // Remember to hide this
+const SECRET = "hjsadfghjakshdfg87sd8f76s8d7f68s7f632342ug44gg423636346f"; // Remember to hide this
 
 const config = {
   authRequired: false,
