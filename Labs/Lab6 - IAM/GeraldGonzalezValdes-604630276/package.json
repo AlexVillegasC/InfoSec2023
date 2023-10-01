@@ -6,14 +6,17 @@
   "dependencies": {
     "@okta/oidc-middleware": "0.0.6",
     "consolidate": "^0.15.1",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-openid-connect": "^2.16.0",
     "express-session": "^1.15.6",
-    "socket.io": "^1.7.4",
-    "swig": "^1.4.2"
+    "socket.io": "^4.7.2",
+    "swig": "^1.4.2",
+    "mocha": "*"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "mocha"
   },
   "author": "UNA",
   "license": "MIT"
