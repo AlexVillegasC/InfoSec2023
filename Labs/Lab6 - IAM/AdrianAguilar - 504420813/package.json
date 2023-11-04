@@ -9,7 +9,7 @@
     "express": "^4.18.2",
     "express-openid-connect": "^2.16.0",
     "express-session": "^1.15.6",
-    "socket.io": "^1.7.4",
+    "socket.io": "*",
     "swig": "^1.4.2"
   },
   "scripts": {
