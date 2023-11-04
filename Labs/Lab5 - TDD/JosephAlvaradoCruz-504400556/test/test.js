@@ -1,22 +1,27 @@
 var val = require('unalib');
- var assert = require('assert');
-  //Pruebas
- 
- 
- //Estamos probando un modulo 'unalib'
- describe('unalib', function(){
-    //Dentro de 'unalib', estamos probando una función especifica
-    describe('función is_valid_phone', function(){
-        //Esta es nuestra prueba actual. Estamos verificando si is_valid_phone
-        //funciona correctamente oara una entrada especifica
-        it('debería devolver true para 8297-8547',function(){
-            //Esta es la comprobación (o 'afirmación'). Si es falsol, la prueba fallará.
-            assert.equal(val.is_valid_phone('8297-8547'),true);
+var assert = require('assert');
+
+
+    // Pruebas:
+
+    // Estamos probando un modulo llamado 'unalib'
+describe('unalib' , function() {
+    // Dentro de 'unalib' estamos probando una funcion especifica
+    // llamada 'is_valid_phone'
+    describe('funcion is_valid_phone', function() {
+        // Esta es nuestra prueba actual. Estamos verificando 
+        // si 'is_valid_phone' funciona correctamente para una
+        //entrada especifica
+        it('deberia devolver true para 8297-8547', function() {
+            //Esta es la comprobaci[on (o "afirmacion"). Si es falso,
+            // la prueba fallara
+            assert.equal(val.is_valid_phone('8297-8547'), true);
         });
     });
- });
- 
- describe('unalib', function(){
+});
+
+
+describe('unalib', function(){
     //Dentro de 'unalib', estamos probando una función especifica
     describe('is_valid_url_image', function() {
         it('Debería retornar true para los distintos formatos validos de los URL de imagenes', function() {
