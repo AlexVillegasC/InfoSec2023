@@ -1,3 +1,5 @@
+
+
 "use strict";
 
 // Imports
@@ -13,15 +15,15 @@ const path = require('path');
 const OKTA_ISSUER_URI = "https://una-infosec.us.auth0.com/";
 const OKTA_CLIENT_ID = "mlIokKRjb5CGf8FbKpDIOKE36e7BjDLA";
 const OKTA_CLIENT_SECRET = "YOUR_SECRET_HERE"; // Remember to hide this
-const REDIRECT_URI = "http://localhost:3000/unaChat";
-const PORT = process.env.PORT || "3000";
+const REDIRECT_URI = "https://una-labcibe-pps-api-libros-dev.azurewebsites.net/unaChat";
+const PORT = process.env.PORT || "443";
 const SECRET = "ANOTHER_SECRET_HERE"; // Remember to hide this
 
 const config = {
   authRequired: false,
   auth0Logout: true,
   secret: SECRET,
-  baseURL: 'http://localhost:3000',
+  baseURL: 'http://una-labcibe-pps-api-libros-dev.azurewebsites.net:8080',
   clientID: OKTA_CLIENT_ID,
   issuerBaseURL: OKTA_ISSUER_URI
 };
@@ -79,7 +81,7 @@ var http = require('http').Server(app);
 //var io = require('socket.io')(http);
 var io = require('socket.io')(http, {
   cors: {
-    origin: "http://localhost:3000", // Allow your express server's origin
+    origin: "https://una-labcibe-pps-api-libros-dev.azurewebsites.net", // Allow your express server's origin
     methods: ["GET", "POST"],
     credentials: true
   }

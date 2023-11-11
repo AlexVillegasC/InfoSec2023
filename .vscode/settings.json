@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/4fe3293e-2817-4ecb-a8b3-a17dd6ff8616/resourceGroups/una-labcibe-pps-api-libros-dev_group/providers/Microsoft.Web/sites/una-labcibe-pps-api-libros-dev",
+    "appService.deploySubpath": "Labs\\Lab6 - IAM\\AlexVillegas-503990937"
+}
