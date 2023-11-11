@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Chat Socket.IO UNA</title>
+      <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font: 13px Helvetica, Arial; }
+        form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+        form input { border: 0; padding: 10px; }
+        form button { width: 10%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+        #messages { list-style-type: none; margin: 0; padding: 0; }
+        #messages li { padding: 5px 10px; }
+        #messages li:nth-child(odd) { background: #eee; }
+        #messages { margin-bottom: 40px; }
+        #nombre, #m { display: inline-block; }
+        #m { width: 69%; margin-right: 4px; }
+        #nombre { width: 20%; }
+        .menu-button {
+          cursor: pointer;
+          font-weight: bold;
+          font-size: 35px; /* Tamaño del icono de hamburguesa */
+          color: #000000; /* Color del botón */
+          margin-right: 10px; /* Espacio entre el botón y el mensaje de bienvenida */
+        }
+
+        /* Estilo del menú desplegable */
+        .menu {
+          position: absolute;
+          top: 50px;
+          right: 10px;
+          background: #fff;
+          border: 1px solid #ccc;
+          padding: 10px;
+          display: none;
+          z-index: 1; /* Para que esté por encima de otros elementos */
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra */
+          width: 250px; /* Ancho del menú */
+        }
+
+        /* Estilo del contenedor jumbotron del menú */
+        .menu .jumbotron {
+          background: #f5f5f5; /* Fondo del menú */
+          padding: 10px;
+          border-radius: 5px;
+        }
+
+        /* Estilo de los elementos dentro del menú */
+        .menu ul {
+          list-style: none;
+          padding: 0;
+        }
+
+        .menu ul li {
+          margin: 5px 0;
+        }
+
+        .menu a {
+          color: #007bff; /* Color del enlace "click aqui" */
+          text-decoration: none;
+        }
+
+        .menu a:hover {
+          text-decoration: underline;
+        }
+
+        /* Estilo del mensaje de bienvenida */
+        .welcome-message {
+          text-align: center;
+          font-size: 24px; /* Tamaño del mensaje de bienvenida */
+          font-weight: bold;
+          margin-top: 20px; /* Espacio entre el menú y el mensaje de bienvenida */
+        }
+    </style>
+  </head>
+  <body>
+    <div class="menu-button">&#9776;</div>
+    <div class="menu">
+      <div class="jumbotron">
+        <ul>
+          <li>Su correo en Okta es: <b>{{user.email}} </b> </li>
+          <li>Su nombre de usuario en Okta es: <b> {{user.nickname}} </b></li>
+        </ul>
+        <p>Para desloguearse, de <a href="/logout">click aqui</a>.</p>
+        <p>Para volver, de <a href="/">click aqui</a>.</p>
+      </div>
+    </div>
+    <div>
+      <div class="welcome-message">Bienvenido a UNAChat</div>
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="nombre" autocomplete="off" placeholder="Username"/>
+      <input id="m" autocomplete="off" placeholder="Escriba un mensaje" /><button>Send</button>
+    </form>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+    document.querySelector('.menu-button').addEventListener('click', function() {
+        var menu = document.querySelector('.menu');
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+      });
+    var colorHexTxt = "";
+
+    // genera colores aleatorios en hexadeximal
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+
+        return color;
+     }
+
+      $(function () {
+        var socket = io('http://localhost:3001');
+
+        // emite evento al servidor
+        $('form').submit(function(){
+
+          // captura de nombre y mensaje
+          var nombreTxt = $('#nombre').val() || "Anomimo";
+          var mensajeTxt = $('#m').val();
+
+          if (colorHexTxt == "")
+          {
+            colorHexTxt = getRandomColor();
+          }
+
+          // composicion del mensaje en formato JSON para enviar
+          // al server NODE
+          var jsonMsg = { nombre:nombreTxt, mensaje: mensajeTxt, color: colorHexTxt};
+
+          // pequena validacion de no enviar nada al server vacio
+          if (nombreTxt.trim() != undefined && nombreTxt.trim() != ""){
+            socket.emit('Evento-Mensaje-Server', JSON.stringify(jsonMsg));
+            $('#m').val('');
+          }
+
+          return false;
+        });
+
+        // Escucha el server
+        socket.on('Evento-Mensaje-Server', function(msg){
+
+          // recibimos mensaje como un objeto JSON
+          var msgJson =  JSON.parse(msg);
+
+          // lo ponemos en un formato
+          var mensajeDisplay = "<b style='color:"+ msgJson.color +"'>" + msgJson.nombre + "</b>: " + msgJson.mensaje;
+
+          // imprimimos el mensaje en pantalla
+          $('#messages').append($('<li>').html(mensajeDisplay));
+          window.scrollTo(0, document.body.scrollHeight);
+        });
+
+      });
+    </script>
+    </div>
+  </body>
+</html>
