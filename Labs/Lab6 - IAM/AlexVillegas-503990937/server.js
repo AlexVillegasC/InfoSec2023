@@ -2,6 +2,8 @@
 
 // Imports
 var unalibValidator = require('./unalib');
+
+var xss = require("xss");
 const express = require("express");
 const session = require("express-session");
 const ExpressOIDC = require("@okta/oidc-middleware").ExpressOIDC;
@@ -16,6 +18,12 @@ const OKTA_CLIENT_SECRET = "YOUR_SECRET_HERE"; // Remember to hide this
 const REDIRECT_URI = "http://localhost:3000/unaChat";
 const PORT = process.env.PORT || "3000";
 const SECRET = "hjsadfghjakshdfg87sd8f76s8d7f68s7f632342ug44gg423636346f"; // Remember to hide this
+var options = {
+  whiteList: {
+    a: ["href", "title", "target"],
+  },
+};
+
 
 const config = {
   authRequired: false,
@@ -93,6 +101,10 @@ io.on('connection', function(socket){
   socket.on('Evento-Mensaje-Server', function(msg){    
     // Validamos el mensaje
     msg = unalibValidator.validateMessage(msg);
+    xss = new xss.FilterXSS(options);
+
+    // then apply myxss.process()
+    msg = xss.process(msg);
     // volvemos a emitir el mismo mensaje
     io.emit('Evento-Mensaje-Server', msg);
   });

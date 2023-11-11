@@ -15,8 +15,8 @@ describe('unalib', function () {
             assert.equal(val.is_valid_phone('6196-8116'), true);
         });
 
-        it('Debería rechazar un número de teléfono incorrecto', function () {
-            assert.equal(val.is_valid_phone('xxxxx'), false);
+        it('Es Palindromo Happy PAath', function () {
+            assert.equal(val.esPalindromo('oso'), true);
           });
         });
       

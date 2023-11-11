@@ -163,9 +163,74 @@ describe('unalib', function() {
   
       it('should recognize and leave plain text as is', function() {
         var input = '{"mensaje": "Este es un texto."}';
-        var expectedOutput = '{"mensaje":"Este es un texto."}';
+        var expectedOutput = '{"mensaje":"Este es un texto."}';    
+
         var result = val.validateMessage(input);
+        
         assert.equal(result, expectedOutput);
       });
     });
 });
+
+
+
+
+describe('unalib', function(){
+    //Dentro de 'unalib', estamos probando una función especifica
+    describe('is_valid_url_image', function() {
+        it('Debería retornar true para los distintos formatos validos de los URL de imagenes', function() {
+          assert.equal(val.is_valid_url_image('http://example.com/image.jpg'),true);
+          assert.equal(val.is_valid_url_image('http://example.com/image.gif'),true);
+          assert.equal(val.is_valid_url_image('http://example.com/image.png'),true);
+          assert.equal(val.is_valid_url_image('http://example.com/image.jpeg'),true);
+          assert.equal(val.is_valid_url_image('http://example.com/image.bmp'),true);
+        });
+      
+        it('Debería retornar false para los distintos formatos inválidos de los URL de imagenes', function() {
+            assert.equal(val.is_valid_url_image('http://example.com/image.txt'),false);
+            assert.equal(val.is_valid_url_image('https://example.com/image.doc'),false);
+            assert.equal(val.is_valid_url_image('http://example.com/image.pdf'),false);
+            assert.equal(val.is_valid_url_image('https://example.com/image'),false);
+            assert.equal(val.is_valid_url_image('example.com/image.jpg'),false);
+        });
+
+        it('Debería retornar false para formatos que no sean string', function() {
+            assert.equal(val.is_valid_url_image(123),false);
+            assert.equal(val.is_valid_url_image(null),false);
+            assert.equal(val.is_valid_url_image(undefined),false);
+            assert.equal(val.is_valid_url_image({}),false);
+            assert.equal(val.is_valid_url_image([]),false);
+        });
+      });
+ });
+
+ describe('unalib', function(){
+    //Dentro de 'unalib', estamos probando una función especifica
+    describe('is_valid_yt_video', function() {
+        it('Debería retornar true para los distintos formatos validos de los URL de youtube', function()  {
+            assert.equal(val.is_valid_yt_video('https://www.youtube.com/watch?v=UjrRTY2UDjw'),true);
+            assert.equal(val.is_valid_yt_video('http://youtu.be/dQw4w9WgXcQ'),true);
+            assert.equal(val.is_valid_yt_video('www.youtube.com/watch?v=dQw4w9WgXcQ'),true);
+            assert.equal(val.is_valid_yt_video('youtube.com/watch?v=dQw4w9WgXcQ'),true);
+        });
+
+
+      
+        it('Debería retornar false para los distintos formatos invalidos de los URL de youtube', function()  {
+            assert.equal(val.is_valid_yt_video('https://www.google.com'),false);
+            assert.equal(val.is_valid_yt_video('http://youtu.be/dQw4w9WgXcQ123'),false);
+            assert.equal(val.is_valid_yt_video('www.youtube.com/watch?x=dQw4w9WgXcQ'),false);
+        });
+
+
+      
+        it('Debería retornar false para formatos que no sean string', function() { 
+            assert.equal(val.is_valid_yt_video(123),false);
+            assert.equal(val.is_valid_yt_video({}),false);
+            assert.equal(val.is_valid_yt_video([]),false);
+            assert.equal(val.is_valid_yt_video(null),false);
+            assert.equal(val.is_valid_yt_video(undefined),false);   
+        });
+      });
+ });
+
