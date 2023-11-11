@@ -1,0 +1,24 @@
+{
+  "name": "okta-oidc-una",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@okta/oidc-middleware": "0.0.6",
+    "consolidate": "^0.15.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-openid-connect": "^2.16.0",
+    "express-session": "^1.15.6",
+    "mocha": "*",
+    "socket.io": "^4.7.2",
+    "swig": "^1.4.2",
+    "xss": "^1.0.14"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "mocha"
+  },
+  "author": "UNA",
+  "license": "MIT"
+}
