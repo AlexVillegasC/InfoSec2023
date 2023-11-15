@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Chat Socket.IO UNA</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px;}
+      form button { width: 10%; background: rgb(130, 224, 255);  border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+      #messages { margin-bottom: 40px }
+      #nombre, #m { display: inline-block;}
+      #m {width: 69%; margin-right: 4px;}
+      #nombre {width: 20%}
+    </style>
+  </head>
+  <body>
+    <div class="jumbotron">
+    <ul>
+        <li>Su correo en Okta es: <b>{{user.email}} </b> </li>
+        <li>Su nombre de usuario en Okta es: <b> {{user.nickname}} </b></li>
+    </ul>
+    <p>Para desloguearse, de <a href="/logout">click aqui</a>.</p>
+</div>
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="nombre" autocomplete="off" placeholder="Username"/>
+      <input id="m" autocomplete="off" placeholder="Escriba un mensaje" /><button>Send</button>
+    </form>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      var colorHexTxt = "";
+  
+      // Genera colores aleatorios en hexadecimal
+      function getRandomColor() {
+          var letters = '0123456789ABCDEF';
+          var color = '#';
+          for (var i = 0; i < 6; i++) {
+              color += letters[Math.floor(Math.random() * 16)];
+          }
+  
+          return color;
+      }
+  
+      $(function () {
+          var socket = io('http://localhost:3001');
+  
+          // Escapa caracteres especiales para prevenir código malicioso
+          function escapeHtml(unsafe) {
+              return unsafe
+                  .replace(/&/g, "&amp;")
+                  .replace(/</g, "&lt;")
+                  .replace(/>/g, "&gt;")
+                  .replace(/"/g, "&quot;")
+                  .replace(/'/g, "&#039;");
+          }
+  
+          // Función para mostrar una alerta
+          function mostrarAlerta(mensaje) {
+              alert(mensaje);
+          }
+  
+          // Emite evento al servidor
+          $('form').submit(function () {
+              // Captura de nombre y mensaje
+              var nombreTxt = $('#nombre').val() || "Anónimo";
+              var mensajeTxt = $('#m').val();
+  
+              if (colorHexTxt == "") {
+                  colorHexTxt = getRandomColor();
+              }
+  
+              // Composición del mensaje en formato JSON para enviar al servidor NODE
+              var jsonMsg = { nombre: nombreTxt, mensaje: mensajeTxt, color: colorHexTxt };
+  
+              // Pequeña validación de no enviar nada al servidor vacío
+              if (nombreTxt.trim() !== "") {
+                  // Escapar contenido potencialmente peligroso en el mensaje
+                  jsonMsg.mensaje = escapeHtml(jsonMsg.mensaje);
+  
+                  // Verificar si el mensaje contiene etiquetas de script o código malicioso
+                  if (jsonMsg.mensaje.indexOf('<script') !== -1 || jsonMsg.mensaje.indexOf('javascript:') !== -1) {
+                      mostrarAlerta("El mensaje contiene código o scripts maliciosos y no está permitido.");
+                  } else {
+                      socket.emit('Evento-Mensaje-Server', JSON.stringify(jsonMsg));
+                      $('#m').val('');
+                  }
+              }
+  
+              return false;
+          });
+  
+          // Escucha el servidor
+          socket.on('Evento-Mensaje-Server', function (msg) {
+              // Recibimos mensaje como un objeto JSON
+              var msgJson = JSON.parse(msg);
+  
+              // Escapar contenido potencialmente peligroso en el mensaje
+              msgJson.nombre = escapeHtml(msgJson.nombre);
+              msgJson.mensaje = escapeHtml(msgJson.mensaje);
+  
+              // Lo ponemos en un formato
+              var mensajeDisplay = "<b style='color:" + msgJson.color + "'>" + msgJson.nombre + "</b>: " + msgJson.mensaje;
+  
+              // Imprimimos el mensaje en pantalla
+              $('#messages').append($('<li>').html(mensajeDisplay));
+              window.scrollTo(0, document.body.scrollHeight);
+          });
+  
+      });
+  </script>
+  
+  
+  </body>
+</html>
