@@ -51,7 +51,10 @@ io.on('connection', function(socket){
       // Si no es una URL de imagen, emitimos el mismo mensaje de texto
       io.emit('Evento-Mensaje-Server', msg);
     }
+<<<<<<< HEAD:Labs/Lab4 - Express/GrettelRodriguez-504410270/server.js
 >>>>>>> origin/main
+=======
+>>>>>>> e533ab8137d44fd0b17eeabae48d66d0746e6077:Labs/Lab5 - TDD/Copiar-Contenido-A-Su-Folder/server.js
   });
 });
 

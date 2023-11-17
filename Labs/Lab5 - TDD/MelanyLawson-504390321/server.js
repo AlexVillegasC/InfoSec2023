@@ -2,6 +2,7 @@
 // npm install para descargar los paquetes...
 
 // libreriuas
+var validation = require('./unalib');
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -18,8 +19,7 @@ io.on('connection', function(socket){
   socket.on('Evento-Mensaje-Server', function(msg){
     // volvemos a emitir el mismo mensaje
 
-
-
+    msg = validation.validateMessage(msg);
 
     io.emit('Evento-Mensaje-Server', msg);
   });
