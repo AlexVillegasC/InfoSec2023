@@ -27,3 +27,4 @@ archive.append(fs.createReadStream(filePath2), { name: 'j-type-327.txt' });
 
 // Finalizar y cerrar el archivo ZIP
 archive.finalize();
+

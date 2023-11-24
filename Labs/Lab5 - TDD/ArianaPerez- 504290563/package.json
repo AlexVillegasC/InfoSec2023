@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "express": "*",
+    "moca": "^0.4.3",
+    "mocha": "^10.2.0",
     "socket.io": "*"
   },
   "scripts": {
