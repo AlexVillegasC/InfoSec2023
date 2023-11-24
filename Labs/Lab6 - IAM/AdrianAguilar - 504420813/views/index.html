@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Chat Socket.IO UNA</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/styleCha.css">
+  </head>
+  <body>
+    <div class="Logout">
+      <button id="btn" type="button"><a href="/dashboard">Dashboard</a></button>
+    </div>
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="nombre" autocomplete="off" placeholder="Username"/>
+      <input id="m" autocomplete="off" placeholder="Escriba un mensaje" /><button>Send</button>
+      <input type="file" id="fileInput" accept="image/*">
+      
+      
+    </form>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+
+    var colorHexTxt = "";
+
+    // genera colores aleatorios en hexadeximal
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+
+        return color;
+     }
+
+      $(function () {
+        var socket = io();
+
+        // emite evento al servidor
+        
+        $('form').submit(function(){
+            var fileInput = document.getElementById('fileInput');
+            
+            var nombreTxt = $('#nombre').val() || "Anomimo";
+            var mensajeTxt = $('#m').val();
+
+            if (colorHexTxt == "") {
+                colorHexTxt = getRandomColor();
+            }
+
+            var jsonMsg = { nombre: nombreTxt, mensaje: mensajeTxt, color: colorHexTxt };
+
+            if (fileInput.files.length > 0) {
+                var file = fileInput.files[0];
+
+                // Asegurarse de que es una imagen
+                if (!file.type.startsWith("image/")) {
+                    alert("Por favor, sube solo imágenes.");
+                    return false;
+                }
+
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    jsonMsg.imageData = e.target.result;
+                    socket.emit('Evento-Mensaje-Server', JSON.stringify(jsonMsg));
+                    $('#m').val('');
+                }
+                reader.readAsDataURL(file);
+            } else {
+                socket.emit('Evento-Mensaje-Server', JSON.stringify(jsonMsg));
+                $('#m').val('');
+            }
+
+            return false;
+        });
+
+        // ... (resto del código) ...
+
+        socket.on('Evento-Mensaje-Server', function(msg){
+            var msgJson = JSON.parse(msg);
+
+            var mensajeDisplay;
+            if (msgJson.imageData) {
+                mensajeDisplay = "<b style='color:"+ msgJson.color +"'>" + msgJson.nombre + "</b>: " + "<img src='" + msgJson.imageData + "' style='max-width: 200px; max-height: 200px;'>" + "<br>" + msgJson.mensaje;
+            } else {
+                mensajeDisplay = "<b style='color:"+ msgJson.color +"'>" + msgJson.nombre + "</b>: " + msgJson.mensaje;
+            }
+
+            $('#messages').append($('<li>').html(mensajeDisplay));
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+
+      });
+    </script>
+  </body>
+</html>
