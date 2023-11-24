@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>Chat Socket.IO UNA</title>
@@ -15,6 +15,12 @@
       #nombre, #m { display: inline-block;}
       #m {width: 69%; margin-right: 4px;}
       #nombre {width: 20%}
+      .chat-media {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+      }
     </style>
   </head>
   <body>
@@ -23,11 +29,11 @@
       <input id="nombre" autocomplete="off" placeholder="Username"/>
       <input id="m" autocomplete="off" placeholder="Escriba un mensaje" /><button>Send</button>
     </form>
+    <div class="chat-media" id="media-container"></div>
     <script src="https://cdn.socket.io/4.7.2/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
-
-    var colorHexTxt = "";
+      var colorHexTxt = "";
 
     // genera colores aleatorios en hexadeximal
     function getRandomColor() {
@@ -36,9 +42,8 @@
         for (var i = 0; i < 6; i++) {
           color += letters[Math.floor(Math.random() * 16)];
         }
-
         return color;
-     }
+      }
 
       $(function () {
         var socket = io();
@@ -49,9 +54,10 @@
           // captura de nombre y mensaje
           var nombreTxt = $('#nombre').val() || "Anomimo";
           var mensajeTxt = $('#m').val();
-
-          if (colorHexTxt == "")
-          {
+          var imageURL = $('#imageURL').val();
+          var videoURL = $('#videoURL').val();
+     
+          if (colorHexTxt == "") {
             colorHexTxt = getRandomColor();
           }
 
@@ -63,8 +69,9 @@
           if (nombreTxt.trim() != undefined && nombreTxt.trim() != ""){
             socket.emit('Evento-Mensaje-Server', JSON.stringify(jsonMsg));
             $('#m').val('');
+            $('#imageURL').val('');
+            $('#videoURL').val('');
           }
-
           return false;
         });
 
@@ -79,9 +86,9 @@
 
           // imprimimos el mensaje en pantalla
           $('#messages').append($('<li>').html(mensajeDisplay));
+          $('#media-container').append(mensajeDisplay);
           window.scrollTo(0, document.body.scrollHeight);
         });
-
       });
     </script>
   </body>

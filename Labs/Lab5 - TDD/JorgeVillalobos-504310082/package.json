@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "express": "*",
+    "mocha": "^10.2.0",
+    "socket.io": "*"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "mocha"
+  }
+}

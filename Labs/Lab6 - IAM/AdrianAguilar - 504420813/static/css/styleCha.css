@@ -1,0 +1,74 @@
+/* Reset de estilos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Estilos para el cuerpo de la página */
+  body {
+    font: 13px Helvetica, Arial;
+  }
+  
+  /* Estilos para el formulario */
+  form {
+    background: #000;
+    padding: 3px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  form input {
+    border: 0;
+    padding: 10px;
+  }
+  
+  form button {
+    width: 10%;
+    background: rgb(130, 224, 255);
+    border: none;
+    padding: 10px;
+  }
+  
+  /* Estilos para la lista de mensajes */
+  #messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #messages li {
+    padding: 5px 10px;
+  }
+  
+  #messages li:nth-child(odd) {
+    background: #eee;
+  }
+  
+  /* Ajustes de diseño adicionales */
+  #messages {
+    margin-bottom: 40px;
+  }
+  
+  #nombre,
+  #m {
+    display: inline-block;
+  }
+  
+  #m {
+    width: 69%;
+    margin-right: 4px;
+  }
+  
+  #nombre {
+    width: 20%;
+  }
+  
+  /* Estilos para el div Logout */
+.Logout {
+    position: absolute;
+    top: 10px; /* Ajusta la distancia desde la parte superior según tu preferencia */
+    right: 10px; /* Ajusta la distancia desde la derecha según tu preferencia */
+  }
+  
