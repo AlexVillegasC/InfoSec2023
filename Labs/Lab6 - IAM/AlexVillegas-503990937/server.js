@@ -4,6 +4,8 @@
 
 // Imports
 var unalibValidator = require('./unalib');
+
+var xss = require("xss");
 const express = require("express");
 const session = require("express-session");
 const ExpressOIDC = require("@okta/oidc-middleware").ExpressOIDC;
@@ -15,8 +17,8 @@ const path = require('path');
 const OKTA_ISSUER_URI = "https://una-infosec.us.auth0.com/";
 const OKTA_CLIENT_ID = "mlIokKRjb5CGf8FbKpDIOKE36e7BjDLA";
 const OKTA_CLIENT_SECRET = "YOUR_SECRET_HERE"; // Remember to hide this
-const REDIRECT_URI = "https://una-labcibe-pps-api-libros-dev.azurewebsites.net/unaChat";
-const PORT = process.env.PORT || "443";
+const REDIRECT_URI = "http://localhost:3000/unaChat";
+const PORT = process.env.PORT || "3000";
 const SECRET = "ANOTHER_SECRET_HERE"; // Remember to hide this
 
 const config = {
@@ -95,6 +97,10 @@ io.on('connection', function(socket){
   socket.on('Evento-Mensaje-Server', function(msg){    
     // Validamos el mensaje
     msg = unalibValidator.validateMessage(msg);
+    xss = new xss.FilterXSS(options);
+
+    // then apply myxss.process()
+    msg = xss.process(msg);
     // volvemos a emitir el mismo mensaje
     io.emit('Evento-Mensaje-Server', msg);
   });
