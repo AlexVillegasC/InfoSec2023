@@ -17,13 +17,16 @@
     }
 
     form {
-      background: #000;
+      background-color: black;
       padding: 3px;
       position: fixed;
       bottom: 0;
       width: 100%;
+      display: flex;
+      
+      
     }
-
+    
     form input {
       border: 0;
       padding: 10px;
@@ -57,6 +60,7 @@
     #nombre,
     #m {
       display: inline-block;
+      
     }
 
     #m {
@@ -70,10 +74,11 @@
 
     li {
       display: flex;
-
-      max-height: 500px;
-      max-width: 500px;
+      flex-wrap: wrap;
+      max-height: 400px;
+      max-width: 400px;
       gap: 40px;
+  
 
     }
 
@@ -82,14 +87,51 @@
       max-height: 100%;
 
     }
+
+@media (max-width: 500px){
+form{
+  background-color: white;
+  height: 10%;
+  display: flex;
+  gap: 5px;
+  
+  
+
+}
+
+#nombre{
+  flex: 1;
+}
+
+#m{
+  flex: 2;
+}
+#boton{
+  flex: 1;
+}
+
+#nombre,
+#m,
+#boton{
+  border: 2px solid black;
+  border-radius: 5px;
+  font-size: 30px;
+}
+
+
+}
+
+
   </style>
 </head>
 
 <body>
+  
   <ul id="messages"></ul>
   <form id="formulario" action="">
     <input id="nombre" autocomplete="off" placeholder="Username" />
-    <input id="m" autocomplete="off" placeholder="Escriba un mensaje" /><button>Send</button>
+    <input id="m" autocomplete="off" placeholder="Escriba un mensaje" />
+    <button id="boton">Send</button>
   </form>
   <script src="https://cdn.socket.io/4.7.2/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -132,7 +174,6 @@
         if (nombreTxt.trim() != undefined && nombreTxt.trim() != "") {
           socket.emit('Evento-Mensaje-Server', JSON.stringify(jsonMsg));
           $('#m').val('');
-          $('#nombre').val('');
 
         }
 
@@ -167,7 +208,7 @@
 
         } else {
 
-          mensajeDisplay = `<b style="color:${msgJson.color}">${msgJson.nombre}</b>`;
+          mensajeDisplay = `<b style="color:${msgJson.color}">${msgJson.nombre}:</b> <p>${msgJson.mensaje}</p>`;
 
         }
 
