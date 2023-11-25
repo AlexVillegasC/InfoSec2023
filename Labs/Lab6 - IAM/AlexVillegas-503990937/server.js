@@ -4,8 +4,6 @@
 
 // Imports
 var unalibValidator = require('./unalib');
-
-var xss = require("xss");
 const express = require("express");
 const session = require("express-session");
 const ExpressOIDC = require("@okta/oidc-middleware").ExpressOIDC;
@@ -14,10 +12,10 @@ const cons = require('consolidate');
 const path = require('path');
 
 // Globals
-const OKTA_ISSUER_URI = "https://una-infosec.us.auth0.com/";
-const OKTA_CLIENT_ID = "mlIokKRjb5CGf8FbKpDIOKE36e7BjDLA";
-const OKTA_CLIENT_SECRET = "YOUR_SECRET_HERE"; // Remember to hide this
-const REDIRECT_URI = "http://localhost:3000/unaChat";
+const OKTA_ISSUER_URI = "https://dev-my3oejucmey26cbs.us.auth0.com/";
+const OKTA_CLIENT_ID = "fUxIR0am3lkZiMqUCrtv5bQn9md0KAL5";
+const OKTA_CLIENT_SECRET = "3R_TjnNt_I45CCRN2UIi6UKMDb1bqwflSGpoK1xclVfICAyNdlajaskOjmLl0AgE"; // Remember to hide this
+const REDIRECT_URI = "https://localhost/unaChat";
 const PORT = process.env.PORT || "3000";
 const SECRET = "ANOTHER_SECRET_HERE"; // Remember to hide this
 
@@ -25,7 +23,7 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: SECRET,
-  baseURL: 'http://una-labcibe-pps-api-libros-dev.azurewebsites.net:8080',
+  baseURL: 'http://localhost:3000',
   clientID: OKTA_CLIENT_ID,
   issuerBaseURL: OKTA_ISSUER_URI
 };
@@ -83,7 +81,7 @@ var http = require('http').Server(app);
 //var io = require('socket.io')(http);
 var io = require('socket.io')(http, {
   cors: {
-    origin: "https://una-labcibe-pps-api-libros-dev.azurewebsites.net", // Allow your express server's origin
+    origin: "https://localhost:3000", // Allow your express server's origin
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -97,10 +95,6 @@ io.on('connection', function(socket){
   socket.on('Evento-Mensaje-Server', function(msg){    
     // Validamos el mensaje
     msg = unalibValidator.validateMessage(msg);
-    xss = new xss.FilterXSS(options);
-
-    // then apply myxss.process()
-    msg = xss.process(msg);
     // volvemos a emitir el mismo mensaje
     io.emit('Evento-Mensaje-Server', msg);
   });
